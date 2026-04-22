@@ -137,14 +137,14 @@ const CollegeFinderCTA = () => {
                 </motion.div>
               </div>
 
-              {/* Floating counter with SaaS feel */}
+              {/* Floating counter with SaaS feel - Refined size */}
               <motion.div 
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -bottom-8 -right-8 bg-emerald-500 text-white p-8 rounded-[2.5rem] shadow-2xl flex flex-col items-center justify-center border-4 border-white dark:border-slate-900 group"
+                className="absolute -bottom-6 -right-6 bg-indigo-600 text-white p-5 rounded-[1.5rem] shadow-2xl flex flex-col items-center justify-center border-4 border-white dark:border-slate-900 group"
               >
-                <div className="text-3xl font-black italic tracking-tighter transition-transform group-hover:scale-110">{colleges.length}+</div>
-                <div className="text-[10px] font-black uppercase tracking-widest opacity-80 whitespace-nowrap">
+                <div className="text-xl font-black italic tracking-tighter transition-transform group-hover:scale-110">{colleges.length}+</div>
+                <div className="text-[8px] font-black uppercase tracking-widest opacity-80 whitespace-nowrap">
                   Approved Institutions
                 </div>
               </motion.div>

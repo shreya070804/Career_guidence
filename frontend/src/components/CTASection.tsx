@@ -56,7 +56,7 @@ const CTASection = () => {
   };
 
   return (
-    <section className="relative w-full py-20 overflow-hidden bg-background">
+    <section className="relative w-full py-16 overflow-hidden bg-background">
       {/* Background gradients */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-400/5 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-400/5 rounded-full blur-[140px] pointer-events-none" />
@@ -79,17 +79,17 @@ const CTASection = () => {
             </div>
 
             {/* Headlines */}
-            <div className="flex flex-col gap-5">
-              <h2 className="text-3xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
+            <div className="flex flex-col gap-4">
+              <h2 className="text-2xl md:text-4xl font-black tracking-tight text-foreground leading-tight">
                 Not Sure Which <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">Career Path</span> to Choose?
               </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed font-medium opacity-80">
+              <p className="text-base text-muted-foreground leading-relaxed font-medium opacity-80">
                 Take our AI-powered assessment to discover suitable career paths based on your interests, skills, and goals.
               </p>
             </div>
 
             {/* Feature Highlights */}
-            <div className="flex flex-col gap-4 w-full">
+            <div className="flex flex-col gap-3 w-full">
               {[
                 { icon: Clock, text: "10-minute precision test", color: "text-blue-500 dark:text-blue-400", bg: "bg-blue-100/50 dark:bg-blue-900/20" },
                 { icon: Zap, text: "Instant AI-powered results", color: "text-purple-500 dark:text-purple-400", bg: "bg-purple-100/50 dark:bg-purple-900/20" },
@@ -98,31 +98,31 @@ const CTASection = () => {
                 <motion.div 
                   key={idx} 
                   whileHover={{ x: 5 }}
-                  className="flex items-center gap-4 bg-white/40 dark:bg-card/40 backdrop-blur-xl p-4 rounded-2xl shadow-sm border border-border/50 transition-all ring-1 ring-inset ring-black/5 dark:ring-white/10"
+                  className="flex items-center gap-3 bg-white/40 dark:bg-card/40 backdrop-blur-xl p-3.5 rounded-xl border border-border/50 transition-all ring-1 ring-inset ring-black/5 dark:ring-white/10"
                 >
-                  <div className={`p-2.5 rounded-xl ${feature.bg} ${feature.color} shadow-inner`}>
-                    <feature.icon className="w-5 h-5" />
+                  <div className={`p-2 rounded-lg ${feature.bg} ${feature.color} shadow-inner`}>
+                    <feature.icon className="w-4 h-4" />
                   </div>
-                  <span className="font-black text-foreground/80 tracking-tight text-sm uppercase">{feature.text}</span>
+                  <span className="font-black text-foreground/80 tracking-tight text-[10px] uppercase">{feature.text}</span>
                 </motion.div>
               ))}
             </div>
 
             {/* Buttons */}
-            <div className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto mt-2">
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-2">
               <Button 
                 onClick={() => navigate("/assessment")}
                 size="lg" 
-                className="rounded-xl bg-primary hover:bg-primary/95 text-white shadow-2xl shadow-primary/20 h-14 px-10 text-base font-black transition-all hover:scale-105 active:scale-95 border-0"
+                className="rounded-xl bg-primary hover:bg-primary/95 text-white shadow-2xl shadow-primary/20 h-12 px-8 text-xs font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-98 border-0"
               >
                 Start Free Assessment
-                <ArrowRight className="ml-2 w-5 h-5" />
+                <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
               <Button 
                 onClick={() => navigate("/ai-guide")}
                 size="lg" 
                 variant="outline" 
-                className="rounded-xl border-2 border-border/60 bg-white/10 dark:bg-white/5 backdrop-blur-md text-foreground hover:bg-muted/50 h-14 px-10 text-base font-black transition-all hover:scale-105 active:scale-95 shadow-sm"
+                className="rounded-xl border-2 border-border/60 bg-white/10 dark:bg-white/5 backdrop-blur-md text-foreground hover:bg-muted/50 h-12 px-8 text-xs font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-98 shadow-sm"
               >
                 Talk to a Counselor
               </Button>
@@ -139,7 +139,7 @@ const CTASection = () => {
                 whileInView={{ height: "100%" }}
                 viewport={{ once: true }}
                 transition={{ duration: 1.5, ease: "easeInOut" }}
-                className="absolute left-8 md:left-[3.25rem] top-10 w-1 bg-gradient-to-b from-blue-400 via-purple-400 to-emerald-400 dark:from-blue-600 dark:via-purple-600 dark:to-emerald-600 rounded-full z-0 opacity-20 origin-top" 
+                className="absolute left-8 md:left-[2.75rem] top-10 w-1 bg-gradient-to-b from-blue-400 via-purple-400 to-emerald-400 dark:from-blue-600 dark:via-purple-600 dark:to-emerald-600 rounded-full z-0 opacity-20 origin-top" 
               />
 
               {/* Step Cards */}
@@ -148,23 +148,23 @@ const CTASection = () => {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="space-y-6"
+                className="space-y-4"
               >
                 {processSteps.map((step, index) => (
                   <motion.div 
                     key={index} 
                     variants={itemVariants}
                     whileHover={{ x: 10, y: -5 }}
-                    className={`relative z-10 flex items-center gap-6 p-6 bg-white/60 dark:bg-card/90 backdrop-blur-2xl rounded-[2.5rem] border border-border/50 shadow-2xl ${step.shadow} transition-all duration-300 ring-1 ring-inset ring-black/5 dark:ring-white/10 group`}
+                    className={`relative z-10 flex items-center gap-5 p-4 bg-white/60 dark:bg-card/90 backdrop-blur-2xl rounded-[1.5rem] border border-border/50 shadow-2xl ${step.shadow} transition-all duration-300 ring-1 ring-inset ring-black/5 dark:ring-white/10 group`}
                   >
-                    <div className={`w-16 h-16 rounded-2xl flex-shrink-0 flex items-center justify-center ${step.bgColor} shadow-inner transition-transform group-hover:scale-110 duration-500`}>
-                      <step.icon className={`w-8 h-8 ${step.color}`} />
+                    <div className={`w-12 h-12 rounded-xl flex-shrink-0 flex items-center justify-center ${step.bgColor} shadow-inner transition-transform group-hover:scale-110 duration-500`}>
+                      <step.icon className={`w-5 h-5 ${step.color}`} />
                     </div>
                     <div className="flex flex-col">
-                      <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${step.color} mb-1.5`}>
+                      <span className={`text-[8px] font-black uppercase tracking-[0.2em] ${step.color} mb-1`}>
                         {step.title}
                       </span>
-                      <h4 className="text-xl md:text-2xl font-black text-foreground tracking-tight leading-tight">
+                      <h4 className="text-base md:text-lg font-black text-foreground tracking-tight leading-tight">
                         {step.description}
                       </h4>
                     </div>

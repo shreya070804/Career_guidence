@@ -65,10 +65,10 @@ const EngineeringCareer = () => {
           </Link>
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-6">
             <div className="flex items-center gap-6">
-              <div className="w-20 h-20 bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 rounded-[2rem] flex items-center justify-center shadow-lg ring-1 ring-inset ring-black/5">
-                <Cpu className="w-10 h-10" />
+              <div className="w-12 h-12 bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 rounded-xl flex items-center justify-center shadow-lg ring-1 ring-inset ring-black/5">
+                <Cpu className="w-6 h-6" />
               </div>
-              <h1 className="text-4xl md:text-5xl font-black text-foreground tracking-tight uppercase">Engineering Career</h1>
+              <h1 className="text-2xl md:text-3xl font-black text-foreground tracking-tight uppercase">Engineering Career</h1>
             </div>
             <div className="flex flex-wrap items-center gap-4">
               <DownloadRoadmapButton 
@@ -111,8 +111,8 @@ const EngineeringCareer = () => {
               </Button>
             </div>
           </div>
-          <p className="text-xl text-muted-foreground leading-relaxed font-medium">
-            Engineering is the application of scientific and mathematical principles to design, build, and maintain structures, machines, systems, and processes. It's a field for innovators who want to shape the future.
+          <p className="text-base text-muted-foreground leading-relaxed font-medium opacity-80 mt-4">
+            Engineering is the application of scientific and mathematical principles to design, build, and maintain structures, machines, systems, and processes.
           </p>
         </header>
 
@@ -232,28 +232,28 @@ const EngineeringCareer = () => {
           ]}
         />
 
-        <section className="bg-gradient-to-br from-indigo-500 to-blue-600 p-12 rounded-[3rem] text-white shadow-xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-[80px] -mr-20 -mt-20" />
-          <h2 className="text-3xl font-black mb-8 flex items-center gap-3 relative z-10">
-            <PenTool className="w-8 h-8"/>
+        <section className="bg-slate-900 p-8 md:p-10 rounded-[2rem] text-white shadow-xl relative overflow-hidden border border-white/5 ring-1 ring-inset ring-white/5">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-primary opacity-5 rounded-full blur-[80px] -mr-20 -mt-20" />
+          <h2 className="text-xl font-black mb-6 flex items-center gap-2 relative z-10 uppercase tracking-widest">
+            <PenTool className="w-5 h-5 text-primary"/>
             Key Entrance Exams
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 relative z-10">
-            <div className="space-y-3">
-              <h3 className="text-xl font-bold">JEE Main & Advanced</h3>
-              <p className="text-indigo-100 font-medium">The gateway to prestige: IITs, NITs, and IIITs.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 relative z-10">
+            <div className="space-y-2">
+              <h3 className="text-base font-black text-white/90">JEE Main & Advanced</h3>
+              <p className="text-slate-400 text-sm font-medium">The gateway to prestige: IITs, NITs, and IIITs.</p>
             </div>
-            <div className="space-y-3">
-              <h3 className="text-xl font-bold">BITSAT</h3>
-              <p className="text-indigo-100 font-medium">For admission to BITS Pilani's top-tier global campuses.</p>
+            <div className="space-y-2">
+              <h3 className="text-base font-black text-white/90">BITSAT</h3>
+              <p className="text-slate-400 text-sm font-medium">For admission to BITS Pilani campuses.</p>
             </div>
-            <div className="space-y-3">
-              <h3 className="text-xl font-bold">VITEEE</h3>
-              <p className="text-indigo-100 font-medium">Premier private university entrance for VIT Vellore/Chennai.</p>
+            <div className="space-y-2">
+              <h3 className="text-base font-black text-white/90">VITEEE</h3>
+              <p className="text-slate-400 text-sm font-medium">Premier private university entrance.</p>
             </div>
-            <div className="space-y-3">
-              <h3 className="text-xl font-bold">State & Regional CETs</h3>
-              <p className="text-indigo-100 font-medium">Local state-level portals for government and private colleges.</p>
+            <div className="space-y-2">
+              <h3 className="text-base font-black text-white/90">Regional CETs</h3>
+              <p className="text-slate-400 text-sm font-medium">Local state-level portals.</p>
             </div>
           </div>
         </section>
@@ -263,26 +263,26 @@ const EngineeringCareer = () => {
             <Briefcase className="text-emerald-500 w-9 h-9"/>
             Dominant Industry Roles
           </h2>
-          <div className="grid gap-6">
-            <div className="flex gap-6 items-center p-8 bg-card border border-border rounded-[2rem] hover:shadow-lg transition-all group">
-              <div className="bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 p-5 rounded-2xl group-hover:scale-110 transition-transform"><Code className="w-8 h-8" /></div>
+          <div className="grid gap-4">
+            <div className="flex gap-4 items-center p-6 bg-card border border-border/50 rounded-2xl hover:shadow-lg transition-all group">
+              <div className="bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 p-4 rounded-xl group-hover:scale-110 transition-transform"><Code className="w-6 h-6" /></div>
               <div>
-                <h3 className="font-black text-foreground text-2xl mb-2">Software Engineer</h3>
-                <p className="text-muted-foreground font-medium text-lg">Architecting the future through code, algorithms, and distributed systems.</p>
+                <h3 className="font-black text-foreground text-lg mb-1 leading-tight">Software Engineer</h3>
+                <p className="text-muted-foreground font-medium text-xs opacity-70">Creating the future through distributed systems.</p>
               </div>
             </div>
-            <div className="flex gap-6 items-center p-8 bg-card border border-border rounded-[2rem] hover:shadow-lg transition-all group">
-              <div className="bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 p-5 rounded-2xl group-hover:scale-110 transition-transform"><Settings className="w-8 h-8" /></div>
+            <div className="flex gap-4 items-center p-6 bg-card border border-border/50 rounded-2xl hover:shadow-lg transition-all group">
+              <div className="bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 p-4 rounded-xl group-hover:scale-110 transition-transform"><Settings className="w-6 h-6" /></div>
               <div>
-                <h3 className="font-black text-foreground text-2xl mb-2">Mechanical Systems Architect</h3>
-                <p className="text-muted-foreground font-medium text-lg">Mastering thermodynamics and structural design for next-gen machinery.</p>
+                <h3 className="font-black text-foreground text-lg mb-1 leading-tight">Systems Architect</h3>
+                <p className="text-muted-foreground font-medium text-xs opacity-70">Structural design for next-gen machinery.</p>
               </div>
             </div>
-            <div className="flex gap-6 items-center p-8 bg-card border border-border rounded-[2rem] hover:shadow-lg transition-all group">
-              <div className="bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 p-5 rounded-2xl group-hover:scale-110 transition-transform"><Zap className="w-8 h-8" /></div>
+            <div className="flex gap-4 items-center p-6 bg-card border border-border/50 rounded-2xl hover:shadow-lg transition-all group">
+              <div className="bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 p-4 rounded-xl group-hover:scale-110 transition-transform"><Zap className="w-6 h-6" /></div>
               <div>
-                <h3 className="font-black text-foreground text-2xl mb-2">Renewable Energy Engineer</h3>
-                <p className="text-muted-foreground font-medium text-lg">Harnessing smart grids and sustainable power for a greener planet.</p>
+                <h3 className="font-black text-foreground text-lg mb-1 leading-tight">Energy Engineer</h3>
+                <p className="text-muted-foreground font-medium text-xs opacity-70">Harnessing smart grids for a greener planet.</p>
               </div>
             </div>
           </div>

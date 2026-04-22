@@ -81,203 +81,188 @@ const StudentPortal = () => {
   return (
     <PageLayout showFooter={false}>
       <div className="max-w-5xl mx-auto space-y-10">
-        <header className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-indigo-600 via-blue-600 to-purple-600 p-8 md:p-12 text-white shadow-2xl">
+        <header className="relative overflow-hidden rounded-[2rem] bg-slate-900 p-8 md:p-10 text-white shadow-2xl border border-white/5 ring-1 ring-inset ring-white/5">
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
             <div className="space-y-4">
-              <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/20">
-                <Sparkles className="w-4 h-4 text-yellow-300" />
-                <span className="text-sm font-bold tracking-wide uppercase">Dashboard Overview</span>
+              <div className="inline-flex items-center space-x-2 bg-white/5 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10">
+                <Sparkles className="w-4 h-4 text-primary" />
+                <span className="text-[10px] font-black tracking-widest uppercase opacity-80">Dashboard Overview</span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
+              <h2 className="text-2xl md:text-4xl font-black tracking-tight leading-tight">
                 Welcome back, <br className="md:hidden" />
-                <span className="text-blue-100">{user?.user_metadata?.full_name || "Student"}</span> 👋
+                <span className="text-primary">{user?.user_metadata?.full_name || "Student"}</span> 👋
               </h2>
-              <p className="text-blue-100/80 text-lg md:text-xl font-medium max-w-xl">
-                Your personalized gateway to career excellence. Manage your sessions, resources, and growth roadmap in one place.
+              <p className="text-slate-400 text-base font-medium max-w-xl">
+                Your personalized gateway to career excellence. 
               </p>
             </div>
             <Button 
               onClick={() => navigate("/booking")} 
-              className="bg-white text-indigo-600 hover:bg-blue-50 shadow-xl shadow-black/10 rounded-2xl px-10 h-16 text-lg font-bold transition-all hover:scale-105 active:scale-95 shrink-0"
+              className="bg-primary text-white hover:bg-primary/90 shadow-xl shadow-primary/20 rounded-xl px-8 h-14 text-sm font-black uppercase tracking-widest transition-all hover:scale-105 active:scale-95 shrink-0"
             >
               <Calendar className="w-5 h-5 mr-3" />
               Book a Session
             </Button>
           </div>
           
-          {/* Ambient Background Elements */}
-          <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-blue-400 opacity-20 blur-[100px] rounded-full" />
-          <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-96 h-96 bg-purple-400 opacity-20 blur-[100px] rounded-full" />
+          {/* Ambient Background Elements - Dimmed */}
+          <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-64 h-64 bg-primary opacity-5 blur-[100px] rounded-full" />
         </header>
 
         <Tabs defaultValue="dashboard" className="space-y-10">
-          <TabsList className="bg-muted/50 border border-border p-1.5 flex w-full max-w-xl rounded-2xl shadow-sm overflow-x-auto no-scrollbar backdrop-blur-sm">
-            <TabsTrigger value="dashboard" className="rounded-xl flex-1 data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all py-3 font-semibold">
-              <User className="w-4 h-4 mr-2" />
+          <TabsList className="bg-muted/30 border border-border/50 p-1 flex w-full max-w-xl rounded-xl shadow-sm no-scrollbar backdrop-blur-sm">
+            <TabsTrigger value="dashboard" className="rounded-lg flex-1 data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all py-2 font-black uppercase text-[10px] tracking-widest">
               Overview
             </TabsTrigger>
-            <TabsTrigger value="sessions" className="rounded-xl flex-1 data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all py-3 font-semibold">
-              <Calendar className="w-4 h-4 mr-2" />
+            <TabsTrigger value="sessions" className="rounded-lg flex-1 data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all py-2 font-black uppercase text-[10px] tracking-widest">
               Sessions
             </TabsTrigger>
-            <TabsTrigger value="chat" className="rounded-xl flex-1 data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all py-3 font-semibold">
-              <Sparkles className="w-4 h-4 mr-2" />
-              AI Guide
-            </TabsTrigger>
-            <TabsTrigger value="resources" className="rounded-xl flex-1 data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all py-3 font-semibold">
-              <BookOpen className="w-4 h-4 mr-2" />
+            <TabsTrigger value="resources" className="rounded-lg flex-1 data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all py-2 font-black uppercase text-[10px] tracking-widest">
               Resources
             </TabsTrigger>
-            <TabsTrigger value="bookmarks" className="rounded-xl flex-1 data-[state=active]:bg-background data-[state=active]:text-rose-500 data-[state=active]:shadow-sm transition-all py-3 font-semibold">
-              <Heart className="w-4 h-4 mr-2" />
+            <TabsTrigger value="bookmarks" className="rounded-lg flex-1 data-[state=active]:bg-background data-[state=active]:text-rose-500 data-[state=active]:shadow-sm transition-all py-2 font-black uppercase text-[10px] tracking-widest">
               Saved
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500">
-            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-              <Card className="border-none shadow-sm rounded-[2rem] bg-white dark:bg-slate-900 overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-l-4 border-blue-500">
-                <CardHeader className="pb-2">
-                  <div className="w-12 h-12 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                    <Calendar className="w-6 h-6" />
+            <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+              <Card className="border border-border/50 shadow-sm rounded-2xl bg-white dark:bg-card/40 overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <CardHeader className="pb-1 p-4">
+                  <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
+                    <Calendar className="w-5 h-5" />
                   </div>
-                  <CardTitle className="text-slate-400 text-xs font-black uppercase tracking-[0.2em]">Upcoming Sessions</CardTitle>
+                  <CardTitle className="text-slate-500 text-[10px] font-black uppercase tracking-widest">Upcoming</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="text-4xl font-black text-slate-900 dark:text-white mb-1">
+                <CardContent className="p-4 pt-0">
+                  <div className="text-2xl font-black text-slate-800 dark:text-white leading-tight">
                     {sessions.filter(s => s.status === 'scheduled').length}
                   </div>
-                  <p className="text-sm text-slate-500 font-medium">Active appointments</p>
+                  <p className="text-[10px] text-slate-500 font-bold uppercase opacity-60 mt-1">Appointments</p>
                 </CardContent>
               </Card>
 
-              <Card className="border-none shadow-sm rounded-[2rem] bg-white dark:bg-slate-900 overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-l-4 border-emerald-500">
-                <CardHeader className="pb-2">
-                  <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                    <BookOpen className="w-6 h-6" />
+              <Card className="border border-border/50 shadow-sm rounded-2xl bg-white dark:bg-card/40 overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <CardHeader className="pb-1 p-4">
+                  <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
+                    <BookOpen className="w-5 h-5" />
                   </div>
-                  <CardTitle className="text-slate-400 text-xs font-black uppercase tracking-[0.2em]">Learning Resources</CardTitle>
+                  <CardTitle className="text-slate-500 text-[10px] font-black uppercase tracking-widest">Resources</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="text-4xl font-black text-slate-900 dark:text-white mb-1">12+</div>
-                  <Button variant="link" className="p-0 h-auto text-emerald-600 dark:text-emerald-400 font-bold hover:no-underline flex items-center group/btn" onClick={() => navigate("/resources")}>
-                    Browse Library <ArrowRight className="w-4 h-4 ml-1 transform group-hover/btn:translate-x-1 transition-transform" />
+                <CardContent className="p-4 pt-0">
+                  <div className="text-2xl font-black text-slate-800 dark:text-white leading-tight">12+</div>
+                  <Button variant="link" className="p-0 h-auto text-emerald-600 dark:text-emerald-400 font-bold text-[10px] uppercase hover:no-underline flex items-center group/btn mt-1" onClick={() => navigate("/resources")}>
+                    Browse <ArrowRight className="w-3 h-3 ml-1" />
                   </Button>
                 </CardContent>
               </Card>
 
-              <Card className="border-none shadow-sm rounded-[2rem] bg-white dark:bg-slate-900 overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-l-4 border-purple-500">
-                <CardHeader className="pb-2">
-                  <div className="w-12 h-12 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                    <MessageSquare className="w-6 h-6" />
+              <Card className="border border-border/50 shadow-sm rounded-2xl bg-white dark:bg-card/40 overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <CardHeader className="pb-1 p-4">
+                  <div className="w-10 h-10 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 rounded-xl flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
+                    <User className="w-5 h-5" />
                   </div>
-                  <CardTitle className="text-slate-400 text-xs font-black uppercase tracking-[0.2em]">AI Career Guide</CardTitle>
+                  <CardTitle className="text-slate-500 text-[10px] font-black uppercase tracking-widest">Strategy</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600 mb-1">Active</div>
-                  <Button variant="link" className="p-0 h-auto text-purple-600 dark:text-purple-400 font-bold hover:no-underline flex items-center group/btn" onClick={() => {
-                    const tabsRoot = document.querySelector('[role="tablist"]');
-                    const aiTab = tabsRoot?.querySelector('[value="chat"]') as HTMLButtonElement | null;
-                    aiTab?.click();
-                  }}>
-                    Ask AI Counselor <ArrowRight className="w-4 h-4 ml-1 transform group-hover/btn:translate-x-1 transition-transform" />
+                <CardContent className="p-4 pt-0">
+                  <div className="text-2xl font-black text-slate-800 dark:text-white leading-tight">Expert</div>
+                  <Button variant="link" className="p-0 h-auto text-purple-600 dark:text-purple-400 font-bold text-[10px] uppercase hover:no-underline flex items-center group/btn mt-1" onClick={() => navigate("/booking")}>
+                    Consult <ArrowRight className="w-3 h-3 ml-1" />
                   </Button>
                 </CardContent>
               </Card>
 
-              <Card className="border-none shadow-sm rounded-[2rem] bg-white dark:bg-slate-900 overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border-l-4 border-amber-500">
-                <CardHeader className="pb-2">
-                  <div className="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-2xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                    <FileText className="w-6 h-6" />
+              <Card className="border border-border/50 shadow-sm rounded-2xl bg-white dark:bg-card/40 overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <CardHeader className="pb-1 p-4">
+                  <div className="w-10 h-10 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-xl flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
+                    <FileText className="w-5 h-5" />
                   </div>
-                  <CardTitle className="text-slate-400 text-xs font-black uppercase tracking-[0.2em]">Career Report</CardTitle>
+                  <CardTitle className="text-slate-500 text-[10px] font-black uppercase tracking-widest">Report</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="text-4xl font-black text-slate-900 dark:text-white mb-1">PRO</div>
-                  <Button variant="link" className="p-0 h-auto text-amber-600 dark:text-amber-400 font-bold hover:no-underline flex items-center group/btn" onClick={() => navigate("/report")}>
-                    View Report <ArrowRight className="w-4 h-4 ml-1 transform group-hover/btn:translate-x-1 transition-transform" />
+                <CardContent className="p-4 pt-0">
+                  <div className="text-2xl font-black text-slate-800 dark:text-white leading-tight">PRO</div>
+                  <Button variant="link" className="p-0 h-auto text-amber-600 dark:text-amber-400 font-bold text-[10px] uppercase hover:no-underline flex items-center group/btn mt-1" onClick={() => navigate("/report")}>
+                    View <ArrowRight className="w-3 h-3 ml-1" />
                   </Button>
                 </CardContent>
               </Card>
             </div>
 
             {/* Your Progress Section */}
-            <div className="grid gap-6 md:grid-cols-1">
-              <Card className="border-none shadow-lg rounded-[2.5rem] bg-white dark:bg-slate-900 overflow-hidden relative group">
-                <CardHeader className="p-8 pb-4">
+            <div className="grid gap-4 md:grid-cols-1">
+              <Card className="border border-border/50 shadow-sm rounded-2xl bg-white dark:bg-card/30 overflow-hidden relative group">
+                <CardHeader className="p-6 pb-2">
                   <div className="flex items-center justify-between">
-                    <CardTitle className="flex items-center gap-3 text-2xl font-black tracking-tight text-slate-800 dark:text-white uppercase">
-                      <Target className="w-6 h-6 text-indigo-500" />
-                      Your Journey Progress
+                    <CardTitle className="flex items-center gap-2 text-base font-black tracking-tight text-slate-800 dark:text-white uppercase">
+                      <Target className="w-5 h-5 text-indigo-500" />
+                      Journey Progress
                     </CardTitle>
-                    <Badge variant="secondary" className="rounded-full px-4 py-1.5 font-bold bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 border-none">
-                      75% Overall
+                    <Badge variant="secondary" className="rounded-full px-3 py-1 text-[10px] font-black uppercase bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400 border-none">
+                      75% Complete
                     </Badge>
                   </div>
                 </CardHeader>
-                <CardContent className="p-8 pt-4 grid md:grid-cols-2 gap-12">
-                  <div className="space-y-4">
+                <CardContent className="p-6 pt-2 grid md:grid-cols-2 gap-8">
+                  <div className="space-y-3">
                     <div className="flex justify-between items-center px-1">
-                      <span className="text-sm font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Career Assessment
+                      <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3 text-emerald-500" /> Assessment
                       </span>
-                      <span className="text-lg font-black text-slate-900 dark:text-white">100%</span>
+                      <span className="text-sm font-black text-slate-800 dark:text-white">100%</span>
                     </div>
-                    <Progress value={100} className="h-3 bg-slate-100 dark:bg-slate-800" />
+                    <Progress value={100} className="h-1.5 bg-slate-100 dark:bg-slate-800" />
                   </div>
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <div className="flex justify-between items-center px-1">
-                      <span className="text-sm font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                        <Zap className="w-4 h-4 text-amber-500" /> Skill Development
+                      <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1">
+                        <Zap className="w-3 h-3 text-amber-500" /> Skills
                       </span>
-                      <span className="text-lg font-black text-slate-900 dark:text-white">45%</span>
+                      <span className="text-sm font-black text-slate-800 dark:text-white">45%</span>
                     </div>
-                    <Progress value={45} className="h-3 bg-slate-100 dark:bg-slate-800" />
+                    <Progress value={45} className="h-1.5 bg-slate-100 dark:bg-slate-800" />
                   </div>
                 </CardContent>
-                {/* Visual Accent */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-indigo-500/10 transition-colors" />
               </Card>
             </div>
 
             {/* Next Steps List */}
-            <Card className="border-none shadow-lg rounded-[2.5rem] bg-white dark:bg-slate-900 overflow-hidden group">
-              <CardHeader className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 p-8">
-                <CardTitle className="flex items-center gap-3 text-2xl font-black tracking-tight text-slate-800 dark:text-white uppercase">
-                  <Layers className="w-6 h-6 text-indigo-500" />
+            <Card className="border border-border/50 shadow-sm rounded-2xl bg-white dark:bg-card/40 overflow-hidden group">
+              <CardHeader className="bg-slate-50 dark:bg-slate-800/20 border-b border-slate-100 dark:border-slate-800/50 p-6">
+                <CardTitle className="flex items-center gap-2 text-base font-black tracking-tight text-slate-800 dark:text-white uppercase">
+                  <Layers className="w-5 h-5 text-indigo-500" />
                   Recommended Next Steps
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0">
-                <div className="divide-y divide-slate-100 dark:divide-slate-800">
-                  <div className="flex flex-col sm:flex-row items-center gap-6 p-8 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-all group/item">
-                    <div className="w-14 h-14 rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center shrink-0 border-2 border-indigo-100 dark:border-indigo-800 shadow-sm group-hover/item:scale-110 transition-transform">
-                      <span className="text-indigo-600 dark:text-indigo-400 font-black text-2xl">1</span>
+                <div className="divide-y divide-slate-100 dark:divide-slate-800/50">
+                  <div className="flex flex-col sm:flex-row items-center gap-4 p-6 hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-all group/item">
+                    <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center shrink-0 border border-indigo-100 dark:border-indigo-800 shadow-sm group-hover/item:scale-110 transition-transform">
+                      <span className="text-indigo-600 dark:text-indigo-400 font-black text-lg">1</span>
                     </div>
-                    <div className="flex-1 text-center sm:text-left space-y-2">
-                      <h4 className="font-black text-slate-800 dark:text-white text-xl leading-tight">Complete AI Career Assessment</h4>
-                      <p className="text-slate-500 font-medium text-base max-w-lg">Unlock your potential with our clinical-grade interest mapping tool.</p>
+                    <div className="flex-1 text-center sm:text-left">
+                      <h4 className="font-black text-slate-800 dark:text-white text-base leading-tight">Complete Career Assessment</h4>
+                      <p className="text-slate-500 font-medium text-xs opacity-70">Unlock your potential with our interest mapping tool.</p>
                     </div>
                     <Button 
                       variant="default" 
-                      className="sm:ml-auto rounded-2xl px-8 h-12 bg-indigo-600 hover:bg-indigo-700 shadow-lg shadow-indigo-600/20 font-bold text-white transition-all hover:scale-105 active:scale-95" 
+                      className="sm:ml-auto rounded-lg px-6 h-10 bg-primary hover:bg-primary/90 shadow-md font-black text-[10px] uppercase tracking-widest text-white transition-all hover:scale-105 active:scale-95" 
                       onClick={() => navigate("/")}
                     >
-                      Launch Test
+                      Launch
                     </Button>
                   </div>
                   
-                  <div className="flex flex-col sm:flex-row items-center gap-6 p-8 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-all group/item">
-                    <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0 border-2 border-slate-200 dark:border-slate-700 shadow-sm group-hover/item:scale-110 transition-transform">
-                      <span className="text-slate-500 dark:text-slate-400 font-black text-2xl">2</span>
+                  <div className="flex flex-col sm:flex-row items-center gap-4 p-6 hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-all group/item">
+                    <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0 border border-slate-200 dark:border-slate-700 shadow-sm group-hover/item:scale-110 transition-transform">
+                      <span className="text-slate-500 dark:text-slate-400 font-black text-lg">2</span>
                     </div>
-                    <div className="flex-1 text-center sm:text-left space-y-2">
-                      <h4 className="font-black text-slate-800 dark:text-white text-xl leading-tight">Strategy Consultation</h4>
-                      <p className="text-slate-500 font-medium text-base max-w-lg">Meet with a career architect to build your industry-aligned roadmap.</p>
+                    <div className="flex-1 text-center sm:text-left">
+                      <h4 className="font-black text-slate-800 dark:text-white text-base leading-tight">Strategy Consultation</h4>
+                      <p className="text-slate-500 font-medium text-xs opacity-70">Meet with a career architect to build your roadmap.</p>
                     </div>
                     <Button 
                       variant="outline" 
-                      className="sm:ml-auto rounded-2xl px-8 h-12 border-slate-200 dark:border-slate-700 font-bold hover:bg-slate-50 transition-all hover:scale-105 active:scale-95" 
+                      className="sm:ml-auto rounded-lg px-6 h-10 border-slate-200 dark:border-slate-700 font-black text-[10px] uppercase tracking-widest hover:bg-slate-50 transition-all hover:scale-105 active:scale-95 text-slate-500" 
                       onClick={() => navigate("/booking")}
                     >
                       Schedule
@@ -341,87 +326,6 @@ const StudentPortal = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="chat" className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-            <Card className="border-border shadow-xl rounded-[2.5rem] overflow-hidden bg-card transition-all duration-500 ring-1 ring-inset ring-black/5 dark:ring-white/10">
-              <CardHeader className="bg-muted/30 border-b border-border p-8">
-                <CardTitle className="flex items-center gap-4 text-3xl font-extrabold tracking-tight">
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
-                    <MessageSquare className="w-6 h-6 text-primary" />
-                  </div>
-                  AI Career Counselor
-                </CardTitle>
-                <CardDescription className="text-lg text-muted-foreground/80 mt-2">
-                  Ask questions and get instant career guidance from our AI assistant
-                </CardDescription>
-              </CardHeader>
-              
-              <CardContent className="p-0 flex flex-col h-[650px]">
-                <div className="flex-1 overflow-y-auto p-8 space-y-8 bg-muted/10 custom-scrollbar">
-                  <div className="flex items-start gap-4 max-w-[85%] animate-in fade-in slide-in-from-left-4 duration-500">
-                    <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0 shadow-lg shadow-primary/20">
-                      <Sparkles className="w-5 h-5 text-primary-foreground" />
-                    </div>
-                    <div className="bg-card border border-border p-6 rounded-[2rem] rounded-tl-none shadow-sm text-card-foreground text-lg leading-relaxed ring-1 ring-inset ring-black/5 dark:ring-white/5">
-                      Hello! I'm your AI Career Counselor. How can I help you explore your future today? You can ask me about streams, specific careers, or necessary skills.
-                    </div>
-                  </div>
-
-                  <div className="flex items-start justify-end gap-4 w-full animate-in fade-in slide-in-from-right-4 duration-500">
-                    <div className="bg-primary text-primary-foreground p-6 rounded-[2rem] rounded-tr-none shadow-lg shadow-primary/10 text-lg leading-relaxed max-w-[85%] font-medium">
-                      What are the best career options if I take Science after 10th?
-                    </div>
-                    <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center shrink-0 border border-border">
-                      <User className="w-5 h-5 text-muted-foreground" />
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4 max-w-[85%] animate-in fade-in slide-in-from-left-4 duration-500 delay-200">
-                    <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0 shadow-lg shadow-primary/20">
-                      <Sparkles className="w-5 h-5 text-primary-foreground" />
-                    </div>
-                    <div className="bg-card border border-border p-6 rounded-[2rem] rounded-tl-none shadow-sm text-card-foreground text-lg leading-relaxed space-y-4 ring-1 ring-inset ring-black/5 dark:ring-white/5">
-                      <p>If you choose the Science stream (PCM or PCB), you have many excellent options:</p>
-                      <ul className="space-y-3">
-                        <li className="flex items-center gap-3"><div className="w-2 h-2 rounded-full bg-primary" /> <strong>Engineering:</strong> Software, Mechanical, or Civil.</li>
-                        <li className="flex items-center gap-3"><div className="w-2 h-2 rounded-full bg-primary" /> <strong>Medical:</strong> Doctor (MBBS), BDS, Nursing.</li>
-                        <li className="flex items-center gap-3"><div className="w-2 h-2 rounded-full bg-primary" /> <strong>Research:</strong> Astrophysics, Biotechnology.</li>
-                        <li className="flex items-center gap-3"><div className="w-2 h-2 rounded-full bg-primary" /> <strong>Tech & AI:</strong> Data Scientist, AI Engineer.</li>
-                      </ul>
-                      <p className="pt-2 text-muted-foreground italic">Would you like to explore any of these specific paths?</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-8 bg-card border-t border-border mt-auto shadow-2xl">
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {["Careers after 10th", "Careers after 12th", "Engineering paths", "Medical fields", "Top Skills"].map((suggestion, idx) => (
-                      <Badge 
-                        key={idx} 
-                        variant="secondary" 
-                        className="bg-muted hover:bg-muted/80 text-muted-foreground font-semibold px-4 py-2 cursor-pointer rounded-full transition-all hover:scale-105 active:scale-95 border border-border"
-                      >
-                        {suggestion}
-                      </Badge>
-                    ))}
-                  </div>
-
-                  <div className="relative flex items-center group">
-                    <input 
-                      type="text" 
-                      placeholder="Ask about careers, streams, or skills..." 
-                      className="w-full h-16 pl-8 pr-16 rounded-full border-2 border-border bg-muted/30 focus:bg-background focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all text-lg font-medium"
-                    />
-                    <button className="absolute right-3 w-12 h-12 bg-primary hover:bg-primary/90 rounded-full flex items-center justify-center text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:scale-110 active:scale-95 group-focus-within:rotate-12">
-                      <Send className="w-5 h-5 ml-0.5" />
-                    </button>
-                  </div>
-                  <p className="text-center text-xs text-muted-foreground/60 mt-4 tracking-tight">
-                    AI can make mistakes. Always verify important career information with human experts.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
 
           <TabsContent value="resources" className="animate-in fade-in slide-in-from-bottom-2 duration-500">
             <Card className="border-border shadow-sm rounded-3xl bg-card overflow-hidden ring-1 ring-inset ring-black/5 dark:ring-white/10">

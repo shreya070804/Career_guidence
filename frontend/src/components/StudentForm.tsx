@@ -93,21 +93,32 @@ const StudentForm = () => {
         description: "Generating personalized career suggestions...",
       });
 
-      // Generate career suggestions
+      // Generate career suggestions using local AI Backend
       setIsLoadingSuggestions(true);
       try {
-        const { data: suggestionsData, error: suggestionsError } = await supabase.functions.invoke('career-suggest', {
-          body: { studentData: validatedData }
+        const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+        const response = await fetch(`${API_BASE}/api/ai/counsel`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            stream: validatedData.stream || (validatedData.current_grade === "10th" ? "School Level" : "General"),
+            interests: validatedData.interests || "General careers",
+            skills: "Student level",
+            goal: validatedData.career_goals || "Professional growth",
+            mode: "general",
+            history: [] // New session
+          })
         });
 
-        if (suggestionsError) throw suggestionsError;
+        if (!response.ok) throw new Error("AI Backend failed");
         
-        setCareerSuggestions(suggestionsData.suggestions);
+        const suggestionsData = await response.json();
+        setCareerSuggestions(suggestionsData.response);
       } catch (suggestionError) {
         console.error("Error generating suggestions:", suggestionError);
         toast({
-          title: "Suggestions Not Available",
-          description: "Your registration was successful, but we couldn't generate suggestions at this time.",
+          title: "AI Analysis Relaxing",
+          description: "Registration success! But our AI is taking a quick break. Feel free to chat with it later.",
           variant: "destructive",
         });
       } finally {
@@ -252,28 +263,26 @@ const StudentForm = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <Card className="border-none shadow-2xl rounded-[3rem] overflow-hidden bg-gradient-to-br from-indigo-600 via-blue-600 to-violet-700 text-white h-fit hidden lg:block sticky top-28 ring-1 ring-inset ring-white/10">
-              <div className="p-10 relative">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl transform translate-x-1/2 -translate-y-1/2" />
-                
-                <h3 className="text-3xl font-black mb-3 tracking-tight">Why Counseling?</h3>
-                <p className="text-blue-100/90 mb-10 text-lg font-medium leading-normal">
+            <Card className="border border-white/5 shadow-2xl rounded-[2rem] overflow-hidden bg-slate-900 text-white h-fit hidden lg:block sticky top-28 ring-1 ring-inset ring-white/5 backdrop-blur-sm">
+              <div className="p-8 relative">
+                <h3 className="text-2xl font-black mb-2 tracking-tight">Why Counseling?</h3>
+                <p className="text-slate-400 mb-6 text-base font-medium leading-normal">
                   Get clarity on your future with our data-driven approach and expert guidance.
                 </p>
 
-                <div className="space-y-10">
+                <div className="space-y-6">
                   {[
-                    { icon: Navigation, title: "Personalized guidance", desc: "Tailored advice based on your unique strengths." },
-                    { icon: Target, title: "Expert counselors", desc: "Connect with veterans from various industries." },
-                    { icon: BrainCircuit, title: "AI Assessment", desc: "Advanced algorithms discover hidden opportunities." }
+                    { icon: Navigation, title: "Personalized guidance", desc: "Tailored advice based on your strengths." },
+                    { icon: Target, title: "Expert counselors", desc: "Connect with industry veterans." },
+                    { icon: BrainCircuit, title: "AI Assessment", desc: "Discover hidden opportunities." }
                   ].map((item, i) => (
-                    <div key={i} className="flex gap-5 group">
-                      <div className="bg-white/10 p-4 rounded-2xl h-fit backdrop-blur-sm border border-white/10 shadow-inner group-hover:scale-110 transition-transform duration-500">
-                        <item.icon className="w-7 h-7 text-white" />
+                    <div key={i} className="flex gap-4 group">
+                      <div className="bg-white/10 p-3 rounded-xl h-fit backdrop-blur-sm border border-white/10 shadow-inner group-hover:scale-110 transition-transform duration-500">
+                        <item.icon className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <h4 className="font-black text-xl mb-1 tracking-tight">{item.title}</h4>
-                        <p className="text-blue-100/70 text-sm leading-relaxed font-medium">
+                        <h4 className="font-black text-base mb-0.5 tracking-tight">{item.title}</h4>
+                        <p className="text-slate-500 text-[11px] leading-relaxed font-medium">
                           {item.desc}
                         </p>
                       </div>
@@ -281,11 +290,11 @@ const StudentForm = () => {
                   ))}
                 </div>
 
-                <div className="mt-16 p-8 bg-white/10 rounded-[2.5rem] backdrop-blur-md border border-white/10 shadow-inner">
-                  <p className="text-lg italic text-blue-50 font-medium leading-relaxed">
-                    "The counseling session changed my perspective on what's possible for my future."
+                <div className="mt-8 p-6 bg-white/5 rounded-[1.5rem] backdrop-blur-md border border-white/5 shadow-inner">
+                  <p className="text-sm italic text-slate-100 font-medium leading-relaxed">
+                    "The counseling session changed my entire perspective."
                   </p>
-                  <p className="text-[10px] font-black mt-5 text-blue-200 tracking-widest uppercase">— Rahul S., 12th Grade</p>
+                  <p className="text-[8px] font-black mt-3 text-slate-500 tracking-widest uppercase">— Rahul S.</p>
                 </div>
               </div>
             </Card>

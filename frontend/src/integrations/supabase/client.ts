@@ -1,18 +1,22 @@
 // Mock Supabase client that redirects to local backend
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 const mockQueryBuilder = (table: string) => {
   const tableMapping: Record<string, string> = {
-    'counseling_sessions': 'sessions',
+    'counseling_sessions': 'counseling',
     'resources': 'resources',
     'students': 'admin/students'
   };
   
   const mappedTable = tableMapping[table] || table;
 
+  let student_id: string | null = null;
   const builder: any = {
     select: () => builder,
-    eq: () => builder,
+    eq: (col: string, val: any) => {
+      if (col === 'student_id') student_id = val;
+      return builder;
+    },
     order: () => builder,
     maybeSingle: async () => {
       try {
@@ -33,25 +37,56 @@ const mockQueryBuilder = (table: string) => {
       }
     },
     insert: async (data: any) => {
+      console.log(`Supabase Mock: Inserting into ${table}`, data);
       try {
-        const response = await fetch(`${API_BASE_URL}/api/${mappedTable}`, {
+        let insertUrl = `${API_BASE_URL}/api/${mappedTable}`;
+        // Use the alt-path for counseling sessions to bypass routing issues
+        if (table === 'counseling_sessions') {
+          insertUrl = `${API_BASE_URL}/api/book-session`;
+        }
+        
+        const response = await fetch(insertUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
         });
+        
+        if (!response.ok) {
+           const errorText = await response.text();
+           console.error(`Backend Error (${response.status}):`, errorText);
+           return { data: null, error: { message: `Backend error ${response.status}` } };
+        }
+
         const result = await response.json();
         return { data: result, error: null };
       } catch (error: any) {
+        console.error("Supabase Insert Error:", error);
         return { data: null, error };
       }
     },
-    // This allows the use of 'await' directly on the builder
     then: (onFulfilled: any) => {
       let url = `${API_BASE_URL}/api/${mappedTable}`;
+      if (table === 'counseling_sessions' && student_id) {
+        url = `${API_BASE_URL}/api/counseling/student/${student_id}`;
+      }
+      
+      console.log(`Supabase Mock: Fetching from ${url}`);
       return fetch(url)
-        .then(r => r.json())
-        .then(data => onFulfilled({ data, error: null }))
-        .catch(error => onFulfilled({ data: [], error }));
+        .then(r => {
+          if (!r.ok) {
+            console.error(`Fetch failed for ${url}: ${r.status}`);
+            throw new Error(`HTTP error! status: ${r.status}`);
+          }
+          return r.json();
+        })
+        .then(data => {
+          console.log(`Supabase Mock: Received data for ${table}`, data);
+          onFulfilled({ data, error: null });
+        })
+        .catch(error => {
+           console.error("Supabase Fetch Error:", error);
+           onFulfilled({ data: [], error });
+        });
     }
   };
   

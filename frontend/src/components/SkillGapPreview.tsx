@@ -15,27 +15,26 @@ const mockSkills = [
   { name: "System Design", status: "developing", pct: 45 },
   { name: "Cloud Platforms", status: "gap", pct: 15 },
   { name: "Problem Solving", status: "mastered", pct: 90 },
-  { name: "Databases (SQL)", status: "developing", pct: 50 },
 ];
 
 const statusConfig = {
   mastered: {
     icon: CheckCircle2,
-    color: "text-emerald-600 dark:text-emerald-400",
-    bar: "bg-gradient-to-r from-emerald-400 to-teal-500",
-    bg: "bg-emerald-50 dark:bg-emerald-900/20",
+    color: "text-violet-600 dark:text-violet-400",
+    bar: "bg-gradient-to-r from-violet-400 to-indigo-500",
+    bg: "bg-violet-50 dark:bg-violet-900/10",
   },
   developing: {
     icon: AlertCircle,
-    color: "text-amber-600 dark:text-amber-400",
-    bar: "bg-gradient-to-r from-amber-400 to-orange-400",
-    bg: "bg-amber-50 dark:bg-amber-900/20",
+    color: "text-blue-600 dark:text-blue-400",
+    bar: "bg-gradient-to-r from-blue-400 to-indigo-400",
+    bg: "bg-blue-50 dark:bg-blue-900/10",
   },
   gap: {
     icon: XCircle,
-    color: "text-rose-600 dark:text-rose-400",
-    bar: "bg-gradient-to-r from-rose-400 to-pink-500",
-    bg: "bg-rose-50 dark:bg-rose-900/20",
+    color: "text-slate-600 dark:text-slate-400",
+    bar: "bg-gradient-to-r from-slate-400 to-slate-500",
+    bg: "bg-slate-50 dark:bg-slate-900/10",
   },
 } as const;
 
@@ -65,7 +64,7 @@ const SkillGapPreview = () => {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-[1.2fr,0.8fr] gap-12 lg:gap-24 items-center">
 
           {/* Left: Copy Strategy */}
           <motion.div 
@@ -122,15 +121,15 @@ const SkillGapPreview = () => {
             </Button>
           </motion.div>
 
-          {/* Right: Mock UI preview */}
+          {/* Right: Mock UI preview - Refined scaling */}
           <motion.div 
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, scale: 0.9, x: 40 }}
+            whileInView={{ opacity: 1, scale: 0.95, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1 }}
-            className="relative"
+            className="relative w-full max-w-md mx-auto lg:ml-auto"
           >
-            <div className="bg-white/80 dark:bg-card/40 backdrop-blur-2xl border border-white/20 dark:border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden ring-1 ring-inset ring-black/5 dark:ring-white/10 group">
+            <div className="bg-white/80 dark:bg-card/40 backdrop-blur-2xl border border-white/20 dark:border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden ring-1 ring-inset ring-black/5 dark:ring-white/10 group scale-[0.9] lg:scale-100 origin-center transition-transform hover:scale-[1.02]">
               {/* Mock header */}
               <div className="bg-gradient-to-r from-violet-600 to-blue-600 px-6 py-6 flex items-center gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-md border border-white/10">
@@ -210,9 +209,9 @@ const SkillGapPreview = () => {
             <motion.div 
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-6 -right-6 bg-emerald-500 text-white px-5 py-2.5 rounded-full font-black text-xs shadow-2xl shadow-emerald-500/30 backdrop-blur-md border border-emerald-400/50"
+              className="absolute -top-6 -right-6 bg-violet-600 text-white px-5 py-2.5 rounded-full font-black text-xs shadow-2xl shadow-violet-500/30 backdrop-blur-md border border-violet-400/50"
             >
-              ✅ 3 Skills Mastered
+              🚀 3 Skills Mastered
             </motion.div>
 
             <motion.div 
@@ -220,8 +219,8 @@ const SkillGapPreview = () => {
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
               className="absolute -bottom-6 -left-6 bg-white dark:bg-card backdrop-blur-xl border border-border/50 rounded-2xl p-4 shadow-2xl flex items-center gap-3"
             >
-              <div className="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900/40 flex items-center justify-center">
-                <XCircle className="w-5 h-5 text-rose-600 dark:text-rose-400" />
+              <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-900/40 flex items-center justify-center">
+                <XCircle className="w-5 h-5 text-slate-600 dark:text-slate-400" />
               </div>
               <div className="pr-2">
                 <div className="text-[10px] font-black text-foreground uppercase tracking-wider mb-0.5">Critical Gap</div>

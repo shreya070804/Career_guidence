@@ -40,7 +40,7 @@ const Auth = () => {
 
       // Mock successful sign up for now since Supabase is removed
       toast({
-        title: "Account created successfully! (Mock Mode)",
+        title: "Account created successfully!",
         description: "Welcome to Career Counseling Platform",
       });
       navigate("/student-portal");
@@ -74,8 +74,8 @@ const Auth = () => {
       await login(validated.email);
 
       toast({
-        title: "Welcome back! (Mock Mode)",
-        description: "Successfully signed in via mock auth",
+        title: "Welcome back!",
+        description: "Successfully signed in to your account",
       });
       navigate("/student-portal");
     } catch (error) {

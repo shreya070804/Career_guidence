@@ -325,9 +325,9 @@ const CollegeFinder = () => {
 </span>
 
 {college.women && (
-<Badge className="bg-pink-100 text-pink-700 border-pink-200">
-Women Only
-</Badge>
+  <Badge className="bg-rose-50 text-rose-600 border-rose-100 dark:bg-rose-900/30 dark:text-rose-400 dark:border-rose-800/30 font-black text-[10px] uppercase tracking-wider">
+    Women Only
+  </Badge>
 )}
 
 </div>

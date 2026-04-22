@@ -19,11 +19,13 @@ import {
   Sparkles,
   Palette,
   Calculator,
-  Heart
+  Heart,
+  TrendingUp
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useBookmarks } from "@/contexts/BookmarkContext";
 import TrendingCareers from "@/components/TrendingCareers";
+import { motion } from "framer-motion";
 
 const categories = [
   { name: "All", icon: null },
@@ -41,7 +43,7 @@ const careers = [
     category: "Engineering",
     description: "Design, build, and maintain complex systems, machines, and structures.",
     skills: ["Mathematics", "Problem Solving", "Technical Design"],
-    salary: "$80k - $150k",
+    salary: { india: "₹6 LPA – ₹30 LPA", abroad: "$80k – $150k" },
     route: "/career/engineering",
     icon: Zap,
     color: "blue"
@@ -51,7 +53,7 @@ const careers = [
     category: "Medical",
     description: "Diagnose, treat, and prevent illnesses to improve human health.",
     skills: ["Medical Science", "Empathy", "Critical Thinking"],
-    salary: "$200k - $400k",
+    salary: { india: "₹12 LPA – ₹50 LPA", abroad: "$200k – $400k" },
     route: "/career/medical",
     icon: Stethoscope,
     color: "teal"
@@ -61,7 +63,7 @@ const careers = [
     category: "Law",
     description: "Provide legal advice and represent clients in legal proceedings.",
     skills: ["Critical Analysis", "Public Speaking", "Writing"],
-    salary: "$120k - $250k",
+    salary: { india: "₹5 LPA – ₹25 LPA", abroad: "$120k – $250k" },
     route: "/career/law-civil",
     icon: Scale,
     color: "amber"
@@ -71,7 +73,7 @@ const careers = [
     category: "Engineering",
     description: "Analyze complex data sets to discover patterns and drive decision-making.",
     skills: ["Statistics", "Programming", "Data Mining"],
-    salary: "$110k - $190k",
+    salary: { india: "₹8 LPA – ₹35 LPA", abroad: "$110k – $190k" },
     route: "/career/engineering",
     icon: Brain,
     color: "indigo"
@@ -81,7 +83,7 @@ const careers = [
     category: "Finance",
     description: "Manage financial records, audits, and provide tax-related advice.",
     skills: ["Accounting", "Taxation", "Financial Law"],
-    salary: "$70k - $160k",
+    salary: { india: "₹6 LPA – ₹20 LPA", abroad: "$70k – $160k" },
     route: "/career/management",
     icon: Calculator,
     color: "emerald"
@@ -91,7 +93,7 @@ const careers = [
     category: "Design",
     description: "Create visual concepts to communicate ideas that inspire and inform.",
     skills: ["Visual Arts", "Design Software", "Creativity"],
-    salary: "$60k - $130k",
+    salary: { india: "₹4 LPA – ₹18 LPA", abroad: "$60k – $130k" },
     route: "/career/arts",
     icon: Palette,
     color: "rose"
@@ -102,6 +104,7 @@ const CareerPaths = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [showGlobal, setShowGlobal] = useState(false);
   const { addBookmark, removeBookmark, isBookmarked } = useBookmarks();
 
   const filteredCareers = careers.filter(career => {
@@ -137,10 +140,10 @@ const CareerPaths = () => {
           </div>
           
           <div className="space-y-4">
-            <h1 className="text-5xl md:text-6xl font-black tracking-tight text-foreground leading-tight">
+            <h1 className="text-3xl md:text-5xl font-black tracking-tight text-foreground leading-tight">
               Explore Career <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">Opportunities</span>
             </h1>
-            <p className="text-xl text-muted-foreground font-medium max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground font-medium max-w-2xl mx-auto opacity-70">
               Discover the professional roadmaps and detailed insights tailored for your aspirations.
             </p>
           </div>
@@ -152,33 +155,45 @@ const CareerPaths = () => {
               <Input 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search careers (e.g. Data Scientist, Doctor)..." 
-                className="pl-16 h-20 rounded-[2rem] border-2 border-border bg-card/50 backdrop-blur-md focus:border-primary transition-all text-xl font-medium shadow-2xl"
+                placeholder="Search careers..." 
+                className="pl-16 h-14 rounded-2xl border-border bg-card/30 backdrop-blur-md focus:border-primary transition-all text-base font-medium shadow-xl"
               />
             </div>
 
-            {/* Filter Chips */}
-            <div className="flex flex-wrap justify-center gap-3">
-              {categories.map((cat) => {
-                const Icon = cat.icon;
-                const isSelected = selectedCategory === cat.name;
-                return (
-                  <button
-                    key={cat.name}
-                    onClick={() => setSelectedCategory(cat.name)}
-                    className={`
-                      inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 transition-all font-bold text-sm
-                      ${isSelected 
-                        ? "bg-primary border-primary text-primary-foreground shadow-lg shadow-primary/20 scale-105" 
-                        : "bg-card border-border text-muted-foreground hover:border-primary/50 hover:text-primary hover:bg-primary/5"
-                      }
-                    `}
-                  >
-                    {Icon && <Icon className="w-4 h-4" />}
-                    {cat.name}
-                  </button>
-                );
-              })}
+            {/* Filter Chips & Global Toggle */}
+            <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+              <div className="flex flex-wrap justify-center gap-3">
+                {categories.map((cat) => {
+                  const Icon = cat.icon;
+                  const isSelected = selectedCategory === cat.name;
+                  return (
+                    <button
+                      key={cat.name}
+                      onClick={() => setSelectedCategory(cat.name)}
+                      className={`
+                        inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 transition-all font-bold text-sm
+                        ${isSelected 
+                          ? "bg-primary border-primary text-primary-foreground shadow-lg shadow-primary/20 scale-105" 
+                          : "bg-card border-border text-muted-foreground hover:border-primary/50 hover:text-primary hover:bg-primary/5"
+                        }
+                      `}
+                    >
+                      {Icon && <Icon className="w-4 h-4" />}
+                      {cat.name}
+                    </button>
+                  );
+                })}
+              </div>
+              
+              <div className="h-10 w-[1px] bg-border hidden md:block" />
+              
+              <button 
+                onClick={() => setShowGlobal(!showGlobal)}
+                className={`flex items-center gap-2 px-6 py-3 rounded-full border-2 transition-all font-black text-xs uppercase tracking-widest ${showGlobal ? 'bg-blue-600 border-blue-600 text-white' : 'bg-card border-border text-blue-600'}`}
+              >
+                <Sparkles className="w-4 h-4" />
+                {showGlobal ? "Global Active" : "Show Global Salary"}
+              </button>
             </div>
           </div>
         </header>
@@ -219,25 +234,33 @@ const CareerPaths = () => {
                         <Heart className={`w-6 h-6 ${isBookmarked(career.title) ? "fill-current" : ""}`} />
                       </Button>
                     </div>
-                    <CardHeader className="p-10 pb-4">
-                      <div className={`w-16 h-16 rounded-[1.25rem] ${colorClasses} border flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform duration-500`}>
-                        <CareerIcon className="w-8 h-8" />
+                    <CardHeader className="p-6 pb-2">
+                      <div className={`w-12 h-12 rounded-xl ${colorClasses} border flex items-center justify-center mb-4 shadow-sm group-hover:scale-110 transition-transform duration-500`}>
+                        <CareerIcon className="w-6 h-6" />
                       </div>
                       <div className="flex items-center justify-between mb-2">
                         <Badge variant="outline" className="rounded-full border-primary/20 text-primary uppercase tracking-widest text-[10px] font-black px-3 py-1">
                           {career.category}
                         </Badge>
-                        <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-black text-sm">
-                          <DollarSign className="w-4 h-4" />
-                          {career.salary}
+                        <div className="flex flex-col items-end gap-1">
+                          <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-black text-sm">
+                            <TrendingUp className="w-4 h-4" />
+                            {career.salary.india}
+                          </div>
+                          {showGlobal && (
+                            <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400 font-black text-xs">
+                              <DollarSign className="w-3.5 h-3.5" />
+                              {career.salary.abroad}
+                            </motion.div>
+                          )}
                         </div>
                       </div>
-                      <CardTitle className="text-3xl font-black text-foreground group-hover:text-primary transition-colors">
+                      <CardTitle className="text-xl font-black text-foreground group-hover:text-primary transition-colors">
                         {career.title}
                       </CardTitle>
                     </CardHeader>
-                    <CardContent className="px-10 pb-8 flex-1">
-                      <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+                    <CardContent className="px-6 pb-6 flex-1">
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-6 line-clamp-2">
                         {career.description}
                       </p>
                       <div className="flex flex-wrap gap-2">
@@ -248,14 +271,14 @@ const CareerPaths = () => {
                         ))}
                       </div>
                     </CardContent>
-                    <CardFooter className="px-10 pb-10 pt-0">
+                    <CardFooter className="px-6 pb-6 pt-0 mt-auto">
                       <Button 
                         onClick={() => navigate(career.route)}
-                        className="w-full h-14 rounded-2xl bg-primary hover:bg-primary/90 text-primary-foreground font-black text-lg gap-2 group/btn shadow-xl shadow-primary/20"
+                        className="w-full h-10 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-black text-xs uppercase tracking-widest gap-2 group/btn shadow-lg shadow-primary/10"
                       >
-                        <Map className="w-5 h-5" />
-                        View Career Roadmap
-                        <ChevronRight className="w-5 h-5 ml-auto group-hover/btn:translate-x-1 transition-transform" />
+                        <Map className="w-4 h-4" />
+                        Explore
+                        <ChevronRight className="w-4 h-4 ml-auto group-hover/btn:translate-x-1 transition-transform" />
                       </Button>
                     </CardFooter>
                   </Card>
@@ -281,23 +304,23 @@ const CareerPaths = () => {
           <TrendingCareers />
         </div>
 
-        {/* Floating CTA */}
+        {/* Floating CTA - Dimmed & Balanced */}
         <section className="py-20">
-          <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[3rem] p-12 md:p-20 text-center text-white space-y-8 shadow-2xl relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-[100px] -mr-32 -mt-32 group-hover:scale-110 transition-transform duration-1000" />
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-900/20 rounded-full blur-[100px] -ml-32 -mb-32 group-hover:scale-110 transition-transform duration-1000" />
+          <div className="bg-slate-900 rounded-[2.5rem] p-10 md:p-16 text-center text-white space-y-6 shadow-2xl relative overflow-hidden group border border-white/5 ring-1 ring-inset ring-white/5">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] -mr-24 -mt-24 group-hover:scale-110 transition-transform duration-1000" />
             
-            <div className="relative z-10 space-y-6 max-w-2xl mx-auto">
-              <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">Can't decide on a direction?</h2>
-              <p className="text-xl text-blue-100 font-medium">Take our AI-powered career assessment to find the perfect professional match for your unique personality and skills.</p>
+            <div className="relative z-10 space-y-4 max-w-xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-black tracking-tight leading-tight italic">Can't decide on a direction?</h2>
+              <p className="text-lg text-slate-400 font-medium opacity-80">Take our AI-powered career assessment to find the perfect professional match for your unique personality and skills.</p>
             </div>
+            
             <Button 
                 onClick={() => navigate("/assessment")}
                 size="lg" 
-                className="relative z-10 rounded-full bg-white text-blue-700 hover:bg-blue-50 px-12 h-20 text-2xl font-black transition-all hover:scale-105 active:scale-95 shadow-2xl"
+                className="relative z-10 rounded-xl bg-white text-slate-900 hover:bg-slate-100 px-10 h-16 text-xl font-black transition-all hover:scale-105 active:scale-95 shadow-2xl border-0"
             >
               Start Free Assessment
-              <Sparkles className="ml-3 w-6 h-6 animate-pulse" />
+              <Sparkles className="ml-3 w-5 h-5" />
             </Button>
           </div>
         </section>

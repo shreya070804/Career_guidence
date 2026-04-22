@@ -22,7 +22,7 @@ import {
   Quote
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import jsPDF from "jspdf";
+import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 
 const CareerReport = () => {
@@ -83,22 +83,32 @@ const CareerReport = () => {
     
     try {
       const canvas = await html2canvas(reportRef.current, {
-        scale: 2, // Higher scale for better quality
+        scale: 2,
         useCORS: true,
         logging: false,
+        backgroundColor: "#ffffff"
       });
       
       const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4");
+      const pdf = new jsPDF({
+        orientation: "p",
+        unit: "mm",
+        format: "a4",
+        compress: true
+      });
+      
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       const imgWidth = canvas.width;
       const imgHeight = canvas.height;
-      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-      const imgX = (pdfWidth - imgWidth * ratio) / 2;
-      const imgY = 0;
+      const ratio = Math.min(pdfWidth / imgWidth, (pdfHeight - 10) / imgHeight);
       
-      pdf.addImage(imgData, "PNG", imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+      const imgFinalWidth = imgWidth * ratio;
+      const imgFinalHeight = imgHeight * ratio;
+      const xOffset = (pdfWidth - imgFinalWidth) / 2;
+      const yOffset = 5; // Slight top margin
+      
+      pdf.addImage(imgData, "PNG", xOffset, yOffset, imgFinalWidth, imgFinalHeight);
       pdf.save(`Career_Report_${studentData.name.replace(/\s+/g, '_')}.pdf`);
     } catch (error) {
       console.error("PDF Export failed:", error);
@@ -106,16 +116,16 @@ const CareerReport = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 py-12 px-4 flex flex-col items-center">
+    <div className="min-h-screen bg-[#0f172a] py-12 px-4 flex flex-col items-center selection:bg-indigo-500/30">
       
       {/* Action Bar */}
       <div className="w-[800px] flex justify-end mb-6 no-print">
         <Button 
           onClick={handleDownloadPDF} 
-          className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg rounded-xl h-12 px-6 flex items-center gap-2 transition-all hover:scale-105"
+          className="bg-white hover:bg-slate-100 text-slate-900 shadow-xl rounded-lg h-10 px-6 text-xs font-black uppercase tracking-widest flex items-center gap-2 transition-all hover:scale-105 active:scale-95"
         >
-          <Download className="w-5 h-5" />
-          Export as Professional PDF
+          <Download className="w-3.5 h-3.5" />
+          Export PDF
         </Button>
       </div>
 
@@ -125,47 +135,72 @@ const CareerReport = () => {
         className="w-[800px] bg-white shadow-2xl rounded-none md:rounded-3xl overflow-hidden font-sans text-slate-900 border border-slate-200"
       >
         
-        {/* 1. COVER PAGE SECTION */}
-        <section className="relative h-[480px] bg-gradient-to-br from-indigo-700 via-blue-600 to-purple-700 p-16 text-white overflow-hidden">
-          <div className="relative z-20 flex flex-col items-center text-center justify-center h-full space-y-8">
-            <div className="bg-white/10 backdrop-blur-xl p-4 rounded-3xl border border-white/20 shadow-2xl">
-              <GraduationCap className="w-12 h-12 text-white" />
+        <section className="relative h-[480px] bg-[#020617] p-16 text-white overflow-hidden flex flex-col justify-between border-b border-white/5">
+          {/* Background Elements */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px] -mr-64 -mt-64" />
+          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] -ml-64 -mb-64" />
+
+          {/* Top Logo/Header Area */}
+          <div className="relative z-20 flex items-start justify-between">
+            <div className="flex gap-4">
+              <div className="w-14 h-14 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-white/10 flex items-center justify-center shadow-2xl">
+                <Sparkles className="w-7 h-7 text-indigo-400" />
+              </div>
+              <div className="pt-1">
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-400 mb-1 leading-none">Intelligence.v2</p>
+                <h3 className="text-sm font-black uppercase tracking-widest text-white leading-none">Career Compass</h3>
+              </div>
             </div>
-            <div className="space-y-3">
-              <h1 className="text-5xl font-black uppercase tracking-widest">Career Compass Report</h1>
-              <div className="h-1.5 w-24 bg-white/30 mx-auto rounded-full" />
-              <p className="text-blue-100 text-xl font-medium tracking-wide">AI-Powered Career Intelligence System</p>
-            </div>
-            <div className="space-y-2 pt-6">
-              <p className="text-blue-200 text-sm uppercase font-bold tracking-[0.3em]">Prepared For</p>
-              <h2 className="text-4xl font-bold">{studentData.name}</h2>
-              <p className="text-blue-100/80 font-medium">{studentData.grade} • {studentData.date}</p>
+            <div className="text-right">
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 border border-slate-800 px-3 py-1 rounded-full">Official Assessment</span>
             </div>
           </div>
-          
-          {/* Abstract background graphics */}
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-400/20 rounded-full blur-[100px]" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-400/20 rounded-full blur-[100px]" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-10">
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-              <path fill="#FFFFFF" d="M44.7,-76.4C58.1,-69.2,69.2,-58.1,76.4,-44.7C83.6,-31.3,86.9,-15.6,85.2,-0.9C83.5,13.8,76.7,27.5,68.4,40.1C60.1,52.7,50.3,64.1,38.1,71.7C25.9,79.2,12.9,82.9,-1.1,84.7C-15.1,86.5,-30.2,86.5,-43.3,80.3C-56.4,74.1,-67.5,61.7,-75.4,47.8C-83.3,33.9,-88,16.9,-88.2,0.1C-88.3,-16.7,-84,-33.4,-75.1,-47.5C-66.2,-61.6,-52.7,-73.1,-38.4,-79.8C-24.1,-86.5,-9,-88.4,4.2,-95.7C17.4,-103,31.4,-83.6,44.7,-76.4Z" transform="translate(100 100)" />
-            </svg>
+
+          {/* Main Title Block */}
+          <div className="relative z-20">
+            <p className="text-[12px] font-black uppercase tracking-[0.5em] text-slate-500 mb-6 flex items-center gap-4">
+              <span className="w-12 h-px bg-slate-800" />
+              Comprehensive Academic Analysis
+            </p>
+            <h1 className="text-6xl font-black tracking-tighter leading-[0.9] uppercase">
+              The <span className="text-slate-500">Career</span><br />
+              Intelligence<br />
+              <span className="text-indigo-400">Report</span>
+            </h1>
+          </div>
+
+          {/* Footer Metadata Area */}
+          <div className="relative z-20 grid grid-cols-3 gap-12 pt-12 border-t border-white/5">
+            <div className="space-y-2">
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 block">Candidate Identity</span>
+              <div className="flex items-center gap-3">
+                <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                <h2 className="text-lg font-black text-white uppercase tracking-tight leading-none">{studentData.name}</h2>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 block">System Authority</span>
+              <p className="text-xs font-bold text-slate-300 uppercase tracking-widest leading-none">AI Control Node_04</p>
+            </div>
+            <div className="space-y-2 text-right">
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 block">Evaluation Date</span>
+              <p className="text-sm font-black text-white uppercase tracking-tight leading-none">{studentData.date}</p>
+            </div>
           </div>
         </section>
 
         <div className="p-12 space-y-16">
           
           {/* 2. AI CAREER SUMMARY SECTION */}
-          <section className="space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-indigo-100">
-                <Sparkles className="w-5 h-5 text-indigo-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-slate-800 tracking-tight">AI Career Insight Summary</h3>
+          <section className="space-y-4">
+            <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+              <Sparkles className="w-4 h-4 text-slate-400" />
+              <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-400">AI Career Insight Summary</h3>
             </div>
-            <Card className="border-none bg-slate-50 shadow-inner rounded-2xl overflow-hidden">
-              <CardContent className="p-8">
-                <p className="text-lg text-slate-600 leading-relaxed font-medium italic">
+            <Card className="border-none bg-slate-50 shadow-inner rounded-xl overflow-hidden">
+              <CardContent className="p-6">
+                <p className="text-sm text-slate-600 leading-relaxed font-medium italic">
                   "{studentData.aiSummary}"
                 </p>
               </CardContent>
@@ -177,22 +212,20 @@ const CareerReport = () => {
             
             {/* Performance Bars */}
             <section className="space-y-8">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-blue-100">
-                  <TrendingUp className="w-5 h-5 text-blue-600" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-800 tracking-tight">Performance Metrics</h3>
-              </div>
+            <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+              <TrendingUp className="w-4 h-4 text-slate-400" />
+              <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400">Performance Metrics</h3>
+            </div>
               <div className="space-y-8">
                 {studentData.scores.map((score, index) => (
                   <div key={index} className="space-y-3">
                     <div className="flex justify-between items-center px-1">
-                      <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">{score.label}</span>
-                      <span className="text-xl font-black text-slate-800">{score.value}%</span>
+                      <span className="text-[11px] font-black text-slate-400 uppercase tracking-widest">{score.label}</span>
+                      <span className="text-lg font-black text-slate-900">{score.value}%</span>
                     </div>
-                    <div className="h-4 w-full bg-slate-100 rounded-full overflow-hidden p-0.5">
+                    <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
                       <div 
-                        className={`h-full bg-gradient-to-r ${score.color} rounded-full transition-all duration-1000 shadow-sm`}
+                        className={`h-full bg-gradient-to-r ${score.color} rounded-full transition-all duration-1000`}
                         style={{ width: `${score.value}%` }}
                       />
                     </div>
@@ -203,12 +236,10 @@ const CareerReport = () => {
 
             {/* Skills Breakdown (Strengths & Improvements) */}
             <section className="space-y-8">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-purple-100">
-                  <Zap className="w-5 h-5 text-purple-600" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-800 tracking-tight">Skills Breakdown</h3>
-              </div>
+            <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+              <Zap className="w-4 h-4 text-slate-400" />
+              <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400">Skills Breakdown</h3>
+            </div>
               
               <div className="space-y-6">
                 <div className="space-y-3">
@@ -217,7 +248,7 @@ const CareerReport = () => {
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {studentData.skillsBreakdown.strengths.map((skill, i) => (
-                      <span key={i} className="px-3 py-1.5 bg-emerald-50 text-emerald-700 text-xs font-bold rounded-lg border border-emerald-100 shadow-sm">
+                      <span key={i} className="px-2 py-1 bg-emerald-50 text-emerald-700 text-[11px] font-black uppercase tracking-wider rounded-md border border-emerald-100 shadow-sm">
                         {skill}
                       </span>
                     ))}
@@ -230,7 +261,7 @@ const CareerReport = () => {
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {studentData.skillsBreakdown.improvements.map((skill, i) => (
-                      <span key={i} className="px-3 py-1.5 bg-amber-50 text-amber-700 text-xs font-bold rounded-lg border border-amber-100 shadow-sm">
+                      <span key={i} className="px-2 py-1 bg-amber-50 text-amber-700 text-[11px] font-black uppercase tracking-wider rounded-md border border-amber-100 shadow-sm">
                         {skill}
                       </span>
                     ))}
@@ -242,26 +273,24 @@ const CareerReport = () => {
 
           {/* 4. CAREER RECOMMENDATIONS SECTION */}
           <section className="space-y-8 pt-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-indigo-100">
-                <Star className="w-5 h-5 text-indigo-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-slate-800 tracking-tight">Top Career Recommendations</h3>
+            <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+              <Star className="w-4 h-4 text-slate-400" />
+              <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400">Top Career Recommendations</h3>
             </div>
             <div className="grid grid-cols-1 gap-4">
               {studentData.recommendations.map((recommendation, index) => (
-                <div key={index} className="flex items-center p-6 border-2 border-slate-50 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all gap-8">
-                  <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg shrink-0">
+                 <div key={index} className="flex items-center p-4 bg-white border border-slate-100 rounded-xl group hover:border-indigo-100 transition-all gap-6">
+                  <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center shrink-0 shadow-sm">
                     {recommendation.icon}
                   </div>
-                  <div className="flex-1 space-y-1">
+                  <div className="flex-1 space-y-0.5">
                     <div className="flex justify-between items-center">
-                      <h4 className="text-xl font-bold text-slate-800">{recommendation.title}</h4>
-                      <Badge className="bg-emerald-500 hover:bg-emerald-600 text-white font-black px-3 py-1 rounded-full text-xs">
-                        {recommendation.match} MATCH
+                      <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight">{recommendation.title}</h4>
+                      <Badge className="bg-indigo-600 text-white border-transparent font-black px-2 py-0.5 rounded text-[9px] uppercase tracking-widest h-5 flex items-center shadow-sm">
+                        {recommendation.match} Match
                       </Badge>
                     </div>
-                    <p className="text-slate-500 font-medium">{recommendation.description}</p>
+                    <p className="text-xs text-slate-500 font-medium opacity-80 leading-tight">{recommendation.description}</p>
                   </div>
                 </div>
               ))}
@@ -270,63 +299,60 @@ const CareerReport = () => {
 
           {/* 5. CAREER ROADMAP SECTION (Vertical Timeline) */}
           <section className="space-y-10 pt-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-blue-100">
-                <Clock className="w-5 h-5 text-blue-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-slate-800 tracking-tight">Strategic Implementation Roadmap</h3>
+            <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+              <Clock className="w-4 h-4 text-slate-400" />
+              <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400">Strategic Implementation Roadmap</h3>
             </div>
             
             <div className="relative ml-4 space-y-12">
               {/* Vertical line connector */}
-              <div className="absolute left-[15px] top-4 bottom-4 w-1 bg-slate-100 rounded-full" />
+              <div className="absolute left-[15px] top-6 bottom-6 w-[1px] bg-slate-200" />
               
               {studentData.roadmap.map((item, index) => (
                 <div key={index} className="relative flex gap-10">
-                  <div className="relative z-10 w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center shrink-0 border-4 border-white shadow-md">
-                    <span className="text-white text-xs font-black">{index + 1}</span>
+                  <div className="relative z-10 w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center shrink-0 border-2 border-white shadow-sm mt-1">
+                    <span className="text-white text-[9px] font-black">{index + 1}</span>
                   </div>
                   <div className="space-y-2">
-                    <div className="flex items-center gap-4">
-                      <h4 className="text-lg font-bold text-slate-800">{item.step}</h4>
-                      <span className="text-xs font-black text-indigo-500 uppercase tracking-widest">{item.year}</span>
+                    <div className="flex items-center gap-3 leading-none">
+                      <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight">{item.step}</h4>
+                      <span className="text-[10px] font-black text-indigo-500 uppercase tracking-widest">{item.year}</span>
                     </div>
-                    <p className="text-slate-500 font-medium leading-relaxed max-w-[600px]">{item.details}</p>
+                    <p className="text-slate-500 font-medium text-xs leading-relaxed max-w-[600px] opacity-80">{item.details}</p>
                   </div>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* 6. RECOMMENDED COLLEGES SECTION */}
-          <section className="space-y-8 pt-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-purple-100">
-                <MapPin className="w-5 h-5 text-purple-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-slate-800 tracking-tight">Institutional Recommendations</h3>
+          <section className="space-y-6 pt-4">
+            <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+              <MapPin className="w-4 h-4 text-slate-400" />
+              <h3 className="text-[11px] font-black uppercase tracking-widest text-slate-400">Institutional Recommendations</h3>
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-2">
               {studentData.colleges.map((college, index) => (
-                <div key={index} className="p-6 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col justify-between gap-4">
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-start">
-                      <h4 className="text-lg font-bold text-slate-800 leading-tight pr-4">{college.name}</h4>
-                      <Badge variant="outline" className="border-indigo-200 text-indigo-600 font-bold bg-white shrink-0">
-                        {college.tag}
-                      </Badge>
+                <div key={index} className="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-xl group hover:border-indigo-100 transition-all">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100 shrink-0">
+                       <GraduationCap className="w-5 h-5 text-indigo-500/50" />
                     </div>
-                    <p className="text-sm text-slate-500 font-medium flex items-center gap-1.5">
-                      <MapPin className="w-3.5 h-3.5" /> {college.location}
-                    </p>
+                    <div>
+                      <div className="flex items-center gap-3">
+                        <h4 className="text-sm font-black text-slate-900 uppercase tracking-tight leading-none">{college.name}</h4>
+                        <span className="text-[10px] font-black uppercase text-indigo-500/40 bg-indigo-50/30 px-1.5 py-0.5 rounded-md border border-indigo-100/30">{college.tag}</span>
+                      </div>
+                      <p className="text-xs text-slate-400 font-bold flex items-center gap-1.5 mt-1">
+                        <MapPin className="w-3 h-3 text-slate-300" /> {college.location}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-slate-200/50">
-                    <div className="flex items-center gap-1">
-                      {[1, 2, 3, 4, 5].map((s) => (
-                        <Star key={s} className="w-3 h-3 text-amber-500 fill-current" />
-                      ))}
+                  <div className="text-right">
+                    <div className="flex items-center gap-1 justify-end mb-1">
+                      <Star className="w-3 h-3 text-amber-400 fill-current" />
+                      <span className="text-base font-black text-slate-900 leading-none">{college.rating}</span>
                     </div>
-                    <span className="text-xs font-black text-slate-400">RATING {college.rating}</span>
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Composite Score</span>
                   </div>
                 </div>
               ))}
@@ -334,22 +360,17 @@ const CareerReport = () => {
           </section>
 
 
-          {/* 8. FOOTER SECTION */}
-          <footer className="text-center space-y-8 py-12">
-            <div className="flex flex-col items-center space-y-4">
-              <div className="p-3 rounded-full bg-slate-100">
-                <Quote className="w-6 h-6 text-slate-400 fill-current opacity-30" />
-              </div>
-              <p className="text-2xl font-serif text-slate-500 italic max-w-lg mx-auto">
-                "The only way to do great work is to love what you do. If you haven't found it yet, keep looking."
+          <footer className="pt-16 text-center space-y-12">
+            <div className="flex flex-col items-center">
+              <div className="w-px h-16 bg-gradient-to-b from-slate-200 to-transparent mb-6" />
+              <p className="text-xs font-serif text-slate-400 italic max-w-[320px] mx-auto opacity-80 leading-relaxed">
+                "The only way to do great work is to love what you do. if you haven't found it yet, keep looking."
               </p>
-              <p className="text-xs font-black text-slate-400 uppercase tracking-widest pt-2">Steve Jobs</p>
+              <p className="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] mt-4">— steve jobs</p>
             </div>
             
-            <div className="h-px w-full bg-slate-100" />
-            
-            <div className="flex justify-between items-center text-[10px] font-black text-slate-400 uppercase tracking-widest px-4">
-              <span>Career Compass Intelligent Systems © 2026</span>
+            <div className="flex justify-between items-center text-[9px] font-black text-slate-300 uppercase tracking-[0.3em] px-4">
+              <span>Career Compass Systems © 2026</span>
               <div className="flex gap-4">
                 <span>Verification ID: CC-AI-8923-X</span>
                 <span>CONFIDENTIAL</span>

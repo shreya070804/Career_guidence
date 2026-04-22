@@ -25,7 +25,8 @@ import {
   Layers,
   BarChart3,
   Search,
-  LayoutDashboard
+  LayoutDashboard,
+  ArrowRight
 } from "lucide-react";
 import { LucideIcon } from "lucide-react";
 
@@ -317,7 +318,7 @@ const SkillGapAnalyzer = () => {
                 <ArrowLeft className="w-4 h-4" />
                 DASHBOARD
               </Button>
-              <h1 className="text-4xl md:text-6xl font-black tracking-tight text-foreground leading-[1.1]">
+              <h1 className="text-3xl md:text-5xl font-black tracking-tight text-foreground leading-[1.1]">
                 Skill Gap <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-blue-600">Analyzer</span>
               </h1>
               <p className="text-lg text-muted-foreground font-medium max-w-2xl opacity-80">
@@ -340,8 +341,8 @@ const SkillGapAnalyzer = () => {
               {/* Step 1: Career Selection Cards */}
               <section className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-violet-600 text-white flex items-center justify-center font-black">01</div>
-                  <h2 className="text-xl font-black tracking-tight">Select Target Domain</h2>
+                  <div className="w-8 h-8 rounded-lg bg-violet-600 text-white flex items-center justify-center text-xs font-black">01</div>
+                  <h2 className="text-lg font-black tracking-tight">Select Target Domain</h2>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {careers.map((career) => {
@@ -364,7 +365,7 @@ const SkillGapAnalyzer = () => {
                             <Icon className="w-7 h-7" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-black text-lg text-foreground mb-1 leading-tight group-hover:text-violet-600 transition-colors text-ellipsis overflow-hidden whitespace-nowrap">{career.title}</h3>
+                            <h3 className="font-black text-base text-foreground mb-1 leading-tight group-hover:text-violet-600 transition-colors text-ellipsis overflow-hidden whitespace-nowrap">{career.title}</h3>
                             <p className="text-xs text-muted-foreground font-medium truncate opacity-70">{career.subtitle}</p>
                             <div className="flex items-center gap-2 mt-3">
                               <Badge variant="secondary" className="bg-muted/50 text-[10px] font-black uppercase tracking-wider px-2 py-0.5">{career.skills.length} Core Skills</Badge>
@@ -398,8 +399,8 @@ const SkillGapAnalyzer = () => {
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black">02</div>
-                        <h2 className="text-xl font-black tracking-tight">Self-Assessment Sliders</h2>
+                        <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs font-black">02</div>
+                        <h2 className="text-lg font-black tracking-tight">Self-Assessment Sliders</h2>
                       </div>
                       <div className="flex p-1 bg-muted rounded-xl gap-1">
                         {(["all", "technical", "soft", "academic"] as const).map(tab => (
@@ -430,7 +431,8 @@ const SkillGapAnalyzer = () => {
                                 <span className={`w-2 h-2 rounded-full ${
                                   skill.importance === "critical" ? "bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.4)]" : "bg-blue-400"
                                 }`} />
-                                <h4 className="font-black text-foreground text-sm tracking-tight">{skill.name}</h4>
+                                <h4 className="font-black text-foreground text-[13px] tracking-tight">{skill.name}</h4>
+ bitumen
                                 <Badge variant="outline" className={`text-[9px] font-black uppercase tracking-widest border-border/50 ${
                                   skill.importance === "critical" ? "text-rose-600" : "text-muted-foreground"
                                 }`}>
